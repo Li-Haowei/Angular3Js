@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CubeComponent } from './cube/cube.component';
+import { SceneComponent } from './scene/scene.component';
 import { ModelComponent } from './model/model.component';
 
 const routes: Routes = [
   {
     path: "",
-    component: CubeComponent, children: [], outlet:'scene'
+    component: SceneComponent, children: [], outlet:'scene'
   },
   {
     path: "model",

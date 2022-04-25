@@ -3,10 +3,10 @@ import * as THREE from "three";
 
 @Component({
   selector: 'app-cube',
-  templateUrl: './cube.component.html',
-  styleUrls: ['./cube.component.scss']
+  templateUrl: './scene.component.html',
+  styleUrls: ['./scene.component.scss']
 })
-export class CubeComponent implements OnInit, AfterViewInit {
+export class SceneComponent implements OnInit, AfterViewInit {
   //ViewChild is a property decorator that configures a view query. The change detector looks for the 
   //first element or the ddirective matching the selector in the view DOM. If the view DOM changes, 
   //and a new child matches the selector, the property is updated
@@ -121,7 +121,7 @@ export class CubeComponent implements OnInit, AfterViewInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
 
-    let component: CubeComponent = this;
+    let component: SceneComponent = this;
     //recursive render function to generate the animation loop
     (function render() {
       requestAnimationFrame(render);

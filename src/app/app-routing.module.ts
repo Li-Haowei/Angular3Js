@@ -6,7 +6,7 @@ import { ModelComponent } from './model/model.component';
 const routes: Routes = [
   {
     path: "",
-    component: CubeComponent
+    component: CubeComponent, children: [], outlet:'scene'
   },
   {
     path: "model",

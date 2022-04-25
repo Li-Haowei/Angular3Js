@@ -22,7 +22,11 @@ export class CubeComponent implements OnInit, AfterViewInit {
 
   @Input() public size: number = 200;
 
-  @Input() public texture: string = "/assets/texture.jpg"; //This is for texture mapping
+  @Input() public cubeTexture: string = "/assets/texture.jpg"; //This is for texture mapping
+
+  @Input() public sphereTexture: string = "/assets/earth.jpeg"; //This is for texture mapping
+
+
 
 
   //* Stage Properties, 
@@ -46,15 +50,18 @@ export class CubeComponent implements OnInit, AfterViewInit {
   private loader = new THREE.TextureLoader();
 //Geometry is what defines the shape, and there are other basic predefined option
 //Look at assets/options.jpeg
-  private geometry = new THREE.BoxGeometry(1, 1, 1);
+  private cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+  private sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
   //private geometry = new THREE.SphereGeometry(1.5, 32, 32);
 //This is what loads the texture, and it can load color like:
 /*new THREE.MeshBasicMaterial({
   color: 0xFF8001
 })*/
-  private material = new THREE.MeshBasicMaterial({ map: this.loader.load(this.texture) });
+  private cubeMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.cubeTexture) });
+  private cube: THREE.Mesh = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
 
-  private cube: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
+  private sphereMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.sphereTexture) });
+  private sphere: THREE.Mesh = new THREE.Mesh(this.sphereGeometry, this.sphereMaterial);
 
   private renderer!: THREE.WebGLRenderer;
 
@@ -70,6 +77,9 @@ export class CubeComponent implements OnInit, AfterViewInit {
     this.cube.position.set(2,0,0);
     this.cube.rotation.x += this.rotationSpeedX;
     this.cube.rotation.y += this.rotationSpeedY;
+
+    this.sphere.position.set(-2,0,0);
+    this.sphere.rotation.y += this.rotationSpeedY;
   }
 
   /**
@@ -82,6 +92,7 @@ export class CubeComponent implements OnInit, AfterViewInit {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000)
     this.scene.add(this.cube);
+    this.scene.add(this.sphere);
     //*Camera
     let aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(

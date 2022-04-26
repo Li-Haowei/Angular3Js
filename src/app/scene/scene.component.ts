@@ -26,6 +26,8 @@ export class SceneComponent implements OnInit, AfterViewInit {
 
   @Input() public sphereTexture: string = "/assets/earth.jpeg"; //This is for texture mapping
 
+  @Input() public heartTexture: string = "/assets/red.jpg"; //This is for texture mapping
+
 
 
 
@@ -34,7 +36,7 @@ export class SceneComponent implements OnInit, AfterViewInit {
 
   @Input() public cameraZ: number = 600; //Camera position on the z-axis
 
-  @Input() public fieldOfView: number = 1; //zoom control, higher the further
+  @Input() public fieldOfView: number = 0.5; //zoom control, higher the further
 
   @Input('nearClipping') public nearClippingPlane: number = 1;
 
@@ -54,6 +56,8 @@ export class SceneComponent implements OnInit, AfterViewInit {
   private sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
 
   //customized a shape
+  //More ways to make a customized shapes: 
+  //https://eddine-djerboua.medium.com/create-a-3d-heart-for-valentines-day-with-three-js-438aabf2d795
   private heartShape = new THREE.Shape()
   .moveTo(25,25)
   .bezierCurveTo( 25, 25, 20, 0, 0, 0 )
@@ -77,8 +81,8 @@ export class SceneComponent implements OnInit, AfterViewInit {
   private sphereMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.sphereTexture) });
   private sphere: THREE.Mesh = new THREE.Mesh(this.sphereGeometry, this.sphereMaterial);
   
-  
-  private heart: THREE.Mesh = new THREE.Mesh(this.heartGeometry, this.cubeMaterial).rotateX(160);
+  private heartMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.heartTexture) });
+  private heart: THREE.Mesh = new THREE.Mesh(this.heartGeometry, this.heartMaterial).rotateX(160);
   
   //!: informs typecript not to worry about checking if THREE.WebGLRenderer is unassigned
   //In other words, it tells typescript it is definitely assigned

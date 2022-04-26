@@ -30,7 +30,6 @@ export class SceneComponent implements OnInit, AfterViewInit {
 
 
 
-
   //* Stage Properties, 
   // referring to /assets/camera_view.png
 
@@ -81,6 +80,7 @@ export class SceneComponent implements OnInit, AfterViewInit {
   private sphereMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.sphereTexture) });
   private sphere: THREE.Mesh = new THREE.Mesh(this.sphereGeometry, this.sphereMaterial);
   
+  
   private heartMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.heartTexture) });
   private heart: THREE.Mesh = new THREE.Mesh(this.heartGeometry, this.heartMaterial).rotateX(160);
   
@@ -106,6 +106,7 @@ export class SceneComponent implements OnInit, AfterViewInit {
 
     this.heart.position.set(0,2,0);
     //set heart mesh scale
+
     this.heart.scale.x = 0.01;
     this.heart.scale.y = 0.01;
     this.heart.scale.z = 0.01;

@@ -52,6 +52,20 @@ export class SceneComponent implements OnInit, AfterViewInit {
 //Look at assets/options.jpeg
   private cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   private sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+
+  //customized a shape
+  private heartShape = new THREE.Shape()
+  .moveTo(25,25)
+  .bezierCurveTo( 25, 25, 20, 0, 0, 0 )
+  .bezierCurveTo( - 30, 0, - 30, 35, - 30, 35 )
+  .bezierCurveTo( - 30, 55, - 10, 77, 25, 95 )
+  .bezierCurveTo( 60, 77, 80, 55, 80, 35 )
+  .bezierCurveTo( 80, 35, 80, 0, 50, 0 )
+  .bezierCurveTo( 35, 0, 25, 25, 25, 25 );
+
+  private extrudeSettings = { depth: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+  private heartGeometry = new THREE.ExtrudeGeometry( this.heartShape, this.extrudeSettings );
   //private geometry = new THREE.SphereGeometry(1.5, 32, 32);
 //This is what loads the texture, and it can load color like:
 /*new THREE.MeshBasicMaterial({
@@ -59,10 +73,15 @@ export class SceneComponent implements OnInit, AfterViewInit {
 })*/
   private cubeMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.cubeTexture) });
   private cube: THREE.Mesh = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
-
+  
   private sphereMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.sphereTexture) });
   private sphere: THREE.Mesh = new THREE.Mesh(this.sphereGeometry, this.sphereMaterial);
-
+  
+  
+  private heart: THREE.Mesh = new THREE.Mesh(this.heartGeometry, this.cubeMaterial).rotateX(160);
+  
+  //!: informs typecript not to worry about checking if THREE.WebGLRenderer is unassigned
+  //In other words, it tells typescript it is definitely assigned
   private renderer!: THREE.WebGLRenderer;
 
   private scene!: THREE.Scene;
@@ -80,6 +99,14 @@ export class SceneComponent implements OnInit, AfterViewInit {
 
     this.sphere.position.set(-2,0,0);
     this.sphere.rotation.y += this.rotationSpeedY;
+
+    this.heart.position.set(0,2,0);
+    //set heart mesh scale
+    this.heart.scale.x = 0.01;
+    this.heart.scale.y = 0.01;
+    this.heart.scale.z = 0.01;
+    this.heart.rotation.y += 0.008;
+    //this.heart.rotateX(90);
   }
 
   /**
@@ -93,6 +120,7 @@ export class SceneComponent implements OnInit, AfterViewInit {
     this.scene.background = new THREE.Color(0x000000)
     this.scene.add(this.cube);
     this.scene.add(this.sphere);
+    this.scene.add(this.heart);
     //*Camera
     let aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(

@@ -1,7 +1,7 @@
 # Angular + Three.js
 
 This project consists of making scenes with Three.js and present in Angular webpage
-
+It has texture mapping, normal mapping, and customized shapes with Bezier curve
 
 ## Usage
 ```

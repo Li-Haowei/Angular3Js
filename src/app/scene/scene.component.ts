@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as THREE from "three";
 
+
 @Component({
   selector: 'app-cube',
   templateUrl: './scene.component.html',
@@ -25,6 +26,8 @@ export class SceneComponent implements OnInit, AfterViewInit {
   @Input() public cubeTexture: string = "/assets/texture.jpg"; //This is for texture mapping
 
   @Input() public sphereTexture: string = "/assets/earth.jpeg"; //This is for texture mapping
+
+  @Input() public normalTexture: string = "/assets/earth-normalmap.jpg"; //This is for normal mapping
 
   @Input() public heartTexture: string = "/assets/red.jpg"; //This is for texture mapping
 
@@ -77,7 +80,12 @@ export class SceneComponent implements OnInit, AfterViewInit {
   private cubeMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.cubeTexture) });
   private cube: THREE.Mesh = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
   
-  private sphereMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.sphereTexture) });
+  private sphereMaterial = new THREE.MeshPhongMaterial({
+    map: this.loader.load(this.sphereTexture),
+    normalMap :  this.loader.load(this.normalTexture)});
+    private sphereMaterial1 = new THREE.MeshBasicMaterial({
+     map: this.loader.load(this.sphereTexture)});
+  
   private sphere: THREE.Mesh = new THREE.Mesh(this.sphereGeometry, this.sphereMaterial);
   
   
@@ -111,6 +119,8 @@ export class SceneComponent implements OnInit, AfterViewInit {
     this.heart.scale.y = 0.01;
     this.heart.scale.z = 0.01;
     this.heart.rotation.y += 0.008;
+    
+    
     //this.heart.rotateX(90);
   }
 
@@ -122,10 +132,14 @@ export class SceneComponent implements OnInit, AfterViewInit {
   private createScene() {
     //* Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x000000)
+    this.scene.background = new THREE.Color(0x404040)
+    
     this.scene.add(this.cube);
     this.scene.add(this.sphere);
     this.scene.add(this.heart);
+      //set up light
+    this.scene.add(new THREE.AmbientLight(0xFFFFFF))
+    
     //*Camera
     let aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(
@@ -162,11 +176,13 @@ export class SceneComponent implements OnInit, AfterViewInit {
       component.renderer.render(component.scene, component.camera);
     }());
   }
-
-  constructor() { }
+  
+  
+  constructor() {
+   }
 
   ngOnInit(): void {
-
+    
   }
   //finally, create scene
   ngAfterViewInit() {
@@ -175,3 +191,4 @@ export class SceneComponent implements OnInit, AfterViewInit {
   }
 
 }
+

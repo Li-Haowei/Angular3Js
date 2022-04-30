@@ -25,9 +25,11 @@ export class SceneComponent implements OnInit, AfterViewInit {
 
   @Input() public cubeTexture: string = "/assets/texture.jpg"; //This is for texture mapping
 
-  @Input() public sphereTexture: string = "/assets/earth.jpeg"; //This is for texture mapping
+  @Input() public sphereTexture: string = "/assets/earth.jpg"; //This is for texture mapping
 
   @Input() public normalTexture: string = "/assets/earth-normalmap.jpg"; //This is for normal mapping
+
+  @Input() public heightMap: string = "/assets/earth-heightmap1.jpg"; //This is for normal mapping
 
   @Input() public heartTexture: string = "/assets/red.jpg"; //This is for texture mapping
 
@@ -80,10 +82,13 @@ export class SceneComponent implements OnInit, AfterViewInit {
   private cubeMaterial = new THREE.MeshBasicMaterial({ map: this.loader.load(this.cubeTexture) });
   private cube: THREE.Mesh = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
   
-  private sphereMaterial = new THREE.MeshPhongMaterial({
+  private sphereMaterial = new THREE.MeshStandardMaterial({
     map: this.loader.load(this.sphereTexture),
-    normalMap :  this.loader.load(this.normalTexture)});
-    private sphereMaterial1 = new THREE.MeshBasicMaterial({
+    displacementMap : this.loader.load(this.heightMap)
+  });
+
+
+  private sphereMaterial1 = new THREE.MeshBasicMaterial({
      map: this.loader.load(this.sphereTexture)});
   
   private sphere: THREE.Mesh = new THREE.Mesh(this.sphereGeometry, this.sphereMaterial);
